@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", system-ui, "Segoe UI", Roboto, sans-serif;
+  --font-serif: "Playfair Display", Georgia, serif;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background-color: #0b0b0f;
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background-color: #d4af37;
+  color: #0b0b0f;
+}
+
+/* Barra de scroll discreta acorde al tema oscuro premium */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #0b0b0f;
+}
+::-webkit-scrollbar-thumb {
+  background: #2a2a33;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3a3a45;
+}
