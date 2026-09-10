@@ -81,8 +81,8 @@ export default function AdminPanel({ appointments, onSendReminder }) {
         </div>
       </div>
 
-      <div className="overflow-hidden rounded-2xl border border-white/10">
-        <table className="w-full min-w-[560px] border-collapse text-left text-sm">
+      <div className="overflow-x-auto rounded-2xl border border-white/10">
+        <table className="w-full min-w-[640px] border-collapse text-left text-sm">
           <thead>
             <tr className="bg-white/[0.04] text-xs uppercase tracking-wide text-white/40">
               <th className="px-4 py-3 font-medium">Hora</th>

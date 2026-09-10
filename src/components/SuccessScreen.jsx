@@ -5,7 +5,7 @@ export default function SuccessScreen({ booking, onReset }) {
   const { service, barber, date, time, clientName, clientPhone } = booking
 
   return (
-    <div className="mx-auto flex max-w-lg flex-col items-center gap-6 px-4 py-10 text-center sm:px-0">
+    <div className="mx-auto flex max-w-lg flex-col items-center gap-6 px-4 py-10 text-center sm:px-6">
       <span className="flex h-16 w-16 items-center justify-center rounded-full bg-emerald-400/15 text-emerald-400">
         <CheckCircle2 size={34} />
       </span>

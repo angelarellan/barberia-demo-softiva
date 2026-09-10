@@ -32,11 +32,13 @@ export default function ServiceSelector({ services, selectedId, onSelect }) {
               </p>
               <p className="mt-1 text-xs text-white/40">{service.description}</p>
             </div>
-            <div className="mt-auto flex w-full items-center justify-between pt-2">
-              <span className="text-lg font-bold text-amber-400">
+            <div className="mt-auto flex w-full items-center justify-between gap-3 border-t border-white/10 pt-3">
+              <span className="text-xl font-bold tracking-tight text-amber-400">
                 {formatPrice(service.price)}
               </span>
-              <span className="text-xs text-white/30">{service.duration} min</span>
+              <span className="whitespace-nowrap rounded-full bg-white/5 px-2.5 py-1 text-[11px] font-medium text-white/40">
+                {service.duration} min
+              </span>
             </div>
           </button>
         )

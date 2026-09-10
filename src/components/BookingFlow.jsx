@@ -83,11 +83,11 @@ export default function BookingFlow({ existingAppointments, onComplete }) {
   }
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6 sm:py-10">
+    <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-10">
       <StepIndicator currentStep={step} />
 
-      <div className="mt-8 grid gap-6 lg:grid-cols-[1fr_260px]">
-        <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5 sm:p-7">
+      <div className="mt-8 grid gap-6 lg:grid-cols-[1fr_280px]">
+        <div className="min-w-0 rounded-2xl border border-white/10 bg-white/[0.02] p-5 sm:p-7">
           <h2 className="font-serif text-xl font-semibold text-white">
             {STEP_TITLES[step]}
           </h2>
