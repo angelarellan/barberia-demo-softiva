@@ -13,7 +13,7 @@ export default function Hero() {
         </h1>
         <p className="flex items-center gap-1.5 text-sm text-white/50">
           <MapPin size={14} />
-          Av. Colón 1234, Nueva Córdoba — Córdoba Capital
+          Dirección de prueba — Córdoba
         </p>
         <p className="max-w-md text-sm text-white/40">
           Reservá tu turno online en menos de un minuto. Elegí el servicio, tu
