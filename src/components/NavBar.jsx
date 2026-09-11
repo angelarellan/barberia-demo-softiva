@@ -13,7 +13,7 @@ export default function NavBar({ view, onChangeView }) {
               Barbería Demo
             </p>
             <p className="text-[11px] text-white/40 sm:text-xs">
-              Córdoba Capital, Argentina
+              Córdoba, Argentina
             </p>
           </div>
         </div>
