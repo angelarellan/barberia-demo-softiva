@@ -1,29 +1,47 @@
-import { Scissors, Sparkles, Brush } from 'lucide-react'
+import { Scissors, Sparkles, Brush, Droplets, Palette } from 'lucide-react'
 
 export const SERVICES = [
   {
     id: 'corte',
-    name: 'Corte',
+    name: 'Corte de Cabello',
     description: 'Corte clásico o moderno, incluye lavado y styling.',
-    price: 14000,
-    duration: 30,
+    price: 15000,
+    duration: 20,
     icon: Scissors,
+  },
+  {
+    id: 'combo',
+    name: 'Corte y Barba',
+    description: 'Corte + barba. La experiencia completa.',
+    price: 20000,
+    duration: 30,
+    icon: Sparkles,
   },
   {
     id: 'barba',
     name: 'Barba',
     description: 'Perfilado y afeitado premium con toalla caliente.',
-    price: 12000,
+    price: 10000,
     duration: 20,
     icon: Brush,
   },
   {
-    id: 'combo',
-    name: 'Combo',
-    description: 'Corte + Barba. La experiencia completa.',
-    price: 24000,
-    duration: 45,
-    icon: Sparkles,
+    id: 'reflejos',
+    name: 'Reflejos',
+    description: 'Mechas y reflejos personalizados. El precio final varía según el largo y volumen.',
+    price: 40000,
+    duration: 30,
+    icon: Droplets,
+    priceFrom: true,
+  },
+  {
+    id: 'color',
+    name: 'Color',
+    description: 'Coloración completa. El precio final varía según el largo y volumen.',
+    price: 45000,
+    duration: 30,
+    icon: Palette,
+    priceFrom: true,
   },
 ]
 
