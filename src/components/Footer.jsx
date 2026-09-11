@@ -13,7 +13,7 @@ export default function Footer() {
         </a>
       </p>
       <p className="mt-1 text-xs text-white/20">
-        Demo de agendamiento — Barbería Premium Demo © {new Date().getFullYear()}
+        Demo de agendamiento — Barbería Demo © {new Date().getFullYear()}
       </p>
     </footer>
   )

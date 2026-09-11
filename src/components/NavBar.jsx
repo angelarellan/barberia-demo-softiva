@@ -10,7 +10,7 @@ export default function NavBar({ view, onChangeView }) {
           </span>
           <div className="leading-tight">
             <p className="font-serif text-base font-semibold text-white sm:text-lg">
-              Barbería Premium Demo
+              Barbería Demo
             </p>
             <p className="text-[11px] text-white/40 sm:text-xs">
               Córdoba Capital, Argentina

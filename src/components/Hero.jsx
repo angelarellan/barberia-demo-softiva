@@ -9,7 +9,7 @@ export default function Hero() {
           4.9 · +500 turnos agendados
         </span>
         <h1 className="font-serif text-3xl font-bold tracking-tight text-white sm:text-4xl">
-          Barbería Premium Demo
+          Barbería Demo
         </h1>
         <p className="flex items-center gap-1.5 text-sm text-white/50">
           <MapPin size={14} />

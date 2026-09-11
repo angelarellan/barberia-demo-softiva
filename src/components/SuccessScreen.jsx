@@ -14,7 +14,7 @@ export default function SuccessScreen({ booking, onReset }) {
           ¡Turno confirmado, {clientName.split(' ')[0]}!
         </h2>
         <p className="mt-2 text-sm text-white/50">
-          Te esperamos en Barbería Premium Demo. Guardá los detalles de tu
+          Te esperamos en Barbería Demo. Guardá los detalles de tu
           reserva.
         </p>
       </div>
