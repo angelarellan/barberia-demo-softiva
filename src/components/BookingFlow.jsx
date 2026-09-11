@@ -133,7 +133,7 @@ export default function BookingFlow({ existingAppointments, onComplete }) {
               disabled={step === 1}
               className="flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium text-white/50 transition hover:text-white disabled:cursor-not-allowed disabled:opacity-0"
             >
-              <ChevronLeft size={16} />
+              <ChevronLeft size={16} aria-hidden="true" />
               Volver
             </button>
             <button
@@ -144,13 +144,13 @@ export default function BookingFlow({ existingAppointments, onComplete }) {
             >
               {step === 4 ? (
                 <>
-                  <CalendarCheck size={16} />
+                  <CalendarCheck size={16} aria-hidden="true" />
                   Confirmar turno
                 </>
               ) : (
                 <>
                   Continuar
-                  <ChevronRight size={16} />
+                  <ChevronRight size={16} aria-hidden="true" />
                 </>
               )}
             </button>

@@ -18,6 +18,7 @@ export default function ServiceSelector({ services, selectedId, onSelect }) {
             }`}
           >
             <span
+              aria-hidden="true"
               className={`flex h-11 w-11 items-center justify-center rounded-xl ${
                 isSelected
                   ? 'bg-amber-400 text-black'
@@ -30,13 +31,13 @@ export default function ServiceSelector({ services, selectedId, onSelect }) {
               <p className="font-serif text-lg font-semibold text-white">
                 {service.name}
               </p>
-              <p className="mt-1 text-xs text-white/40">{service.description}</p>
+              <p className="mt-1 text-xs text-white/55">{service.description}</p>
             </div>
             <div className="mt-auto flex w-full items-center justify-between gap-3 border-t border-white/10 pt-3">
               <span className="text-xl font-bold tracking-tight text-amber-400">
                 {formatPrice(service.price)}
               </span>
-              <span className="whitespace-nowrap rounded-full bg-white/5 px-2.5 py-1 text-[11px] font-medium text-white/40">
+              <span className="whitespace-nowrap rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-medium text-white/60">
                 {service.duration} min
               </span>
             </div>

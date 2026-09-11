@@ -27,7 +27,7 @@ export default function BarberSelector({ barbers, selectedId, onSelect }) {
               <p className="font-serif text-base font-semibold text-white">
                 {barber.name}
               </p>
-              <p className="mt-1 text-xs text-white/40">{barber.role}</p>
+              <p className="mt-1 text-xs text-white/55">{barber.role}</p>
             </div>
           </button>
         )

@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
     <footer className="border-t border-white/10 bg-[#0b0b0f] px-4 py-8 text-center sm:px-6">
-      <p className="text-sm text-white/40">
+      <p className="text-sm text-white/55">
         Desarrollado por{' '}
         <a
           href="https://www.softivastudio.com/"
@@ -12,7 +12,7 @@ export default function Footer() {
           Softiva Studio
         </a>
       </p>
-      <p className="mt-1 text-xs text-white/20">
+      <p className="mt-1 text-xs text-white/50">
         Demo de agendamiento — Barbería Demo © {new Date().getFullYear()}
       </p>
     </footer>

@@ -1,11 +1,12 @@
-import { useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
 import NavBar from './components/NavBar'
 import Hero from './components/Hero'
 import BookingFlow from './components/BookingFlow'
 import SuccessScreen from './components/SuccessScreen'
-import AdminPanel from './components/AdminPanel'
 import Footer from './components/Footer'
 import { SEED_APPOINTMENTS } from './data/mockData'
+
+const AdminPanel = lazy(() => import('./components/AdminPanel'))
 
 export default function App() {
   const [view, setView] = useState('public')
@@ -62,10 +63,12 @@ export default function App() {
             )}
           </>
         ) : (
-          <AdminPanel
-            appointments={appointments}
-            onSendReminder={handleSendReminder}
-          />
+          <Suspense fallback={null}>
+            <AdminPanel
+              appointments={appointments}
+              onSendReminder={handleSendReminder}
+            />
+          </Suspense>
         )}
       </main>
 

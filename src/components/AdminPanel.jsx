@@ -45,18 +45,18 @@ export default function AdminPanel({ appointments, onSendReminder }) {
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-10">
       <div className="mb-6">
-        <h2 className="font-serif text-2xl font-bold text-white">
+        <h1 className="font-serif text-2xl font-bold text-white">
           Panel Admin
-        </h2>
-        <p className="mt-1 text-sm text-white/40">
+        </h1>
+        <p className="mt-1 text-sm text-white/55">
           Turnos de hoy y simulador de recordatorios por WhatsApp.
         </p>
       </div>
 
       <div className="mb-8 grid gap-4 sm:grid-cols-3">
         <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-          <div className="flex items-center gap-2 text-white/40">
-            <CalendarDays size={15} />
+          <div className="flex items-center gap-2 text-white/55">
+            <CalendarDays size={15} aria-hidden="true" />
             <span className="text-xs uppercase tracking-wide">Turnos hoy</span>
           </div>
           <p className="mt-2 text-2xl font-bold text-white">
@@ -64,15 +64,15 @@ export default function AdminPanel({ appointments, onSendReminder }) {
           </p>
         </div>
         <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-          <div className="flex items-center gap-2 text-white/40">
-            <Users size={15} />
+          <div className="flex items-center gap-2 text-white/55">
+            <Users size={15} aria-hidden="true" />
             <span className="text-xs uppercase tracking-wide">Barberos activos</span>
           </div>
           <p className="mt-2 text-2xl font-bold text-white">{BARBERS.length}</p>
         </div>
         <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-          <div className="flex items-center gap-2 text-white/40">
-            <Wallet size={15} />
+          <div className="flex items-center gap-2 text-white/55">
+            <Wallet size={15} aria-hidden="true" />
             <span className="text-xs uppercase tracking-wide">Ingresos estimados</span>
           </div>
           <p className="mt-2 text-2xl font-bold text-amber-400">
@@ -84,7 +84,7 @@ export default function AdminPanel({ appointments, onSendReminder }) {
       <div className="overflow-x-auto rounded-2xl border border-white/10">
         <table className="w-full min-w-[640px] border-collapse text-left text-sm">
           <thead>
-            <tr className="bg-white/[0.04] text-xs uppercase tracking-wide text-white/40">
+            <tr className="bg-white/[0.04] text-xs uppercase tracking-wide text-white/55">
               <th className="px-4 py-3 font-medium">Hora</th>
               <th className="px-4 py-3 font-medium">Cliente</th>
               <th className="px-4 py-3 font-medium">Servicio</th>
@@ -97,7 +97,7 @@ export default function AdminPanel({ appointments, onSendReminder }) {
               <tr>
                 <td
                   colSpan={5}
-                  className="px-4 py-8 text-center text-sm text-white/30"
+                  className="px-4 py-8 text-center text-sm text-white/55"
                 >
                   No hay turnos agendados para hoy todavía.
                 </td>
@@ -119,13 +119,13 @@ export default function AdminPanel({ appointments, onSendReminder }) {
                     <div className="font-medium text-white">
                       {appointment.clientName}
                     </div>
-                    <div className="text-xs text-white/30">
+                    <div className="text-xs text-white/55">
                       {appointment.clientPhone}
                     </div>
                   </td>
                   <td className="px-4 py-3">
                     <span className="flex items-center gap-1.5">
-                      <Scissors size={12} className="text-amber-400" />
+                      <Scissors size={12} className="text-amber-400" aria-hidden="true" />
                       {service?.name}
                     </span>
                   </td>
@@ -133,7 +133,7 @@ export default function AdminPanel({ appointments, onSendReminder }) {
                   <td className="px-4 py-3">
                     {appointment.reminderSent ? (
                       <span className="flex items-center gap-1.5 text-xs font-medium text-emerald-400">
-                        <CheckCheck size={14} />
+                        <CheckCheck size={14} aria-hidden="true" />
                         Enviado
                       </span>
                     ) : (
@@ -141,9 +141,10 @@ export default function AdminPanel({ appointments, onSendReminder }) {
                         type="button"
                         onClick={() => handleSendReminder(appointment.id)}
                         disabled={isSending}
+                        aria-label={`Simular recordatorio de WhatsApp para ${appointment.clientName}`}
                         className="flex items-center gap-1.5 rounded-full border border-amber-400/30 bg-amber-400/10 px-3 py-1.5 text-xs font-medium text-amber-300 transition hover:bg-amber-400/20 disabled:opacity-50"
                       >
-                        <Send size={12} />
+                        <Send size={12} aria-hidden="true" />
                         {isSending ? 'Enviando...' : 'Simular recordatorio'}
                       </button>
                     )}

@@ -13,7 +13,7 @@ export default function DateTimeSelector({
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <p className="mb-3 text-xs font-medium uppercase tracking-wide text-white/40">
+        <p className="mb-3 text-xs font-medium uppercase tracking-wide text-white/55">
           Elegí una fecha
         </p>
         <div className="flex gap-2 overflow-x-auto pb-1">
@@ -32,7 +32,11 @@ export default function DateTimeSelector({
               >
                 <span className="text-[11px] capitalize">{day.weekday}</span>
                 <span className="text-lg font-semibold">{day.day}</span>
-                <span className="text-[10px] capitalize text-white/30">
+                <span
+                  className={`text-[10px] capitalize ${
+                    isSelected ? 'text-white/70' : 'text-white/60'
+                  }`}
+                >
                   {day.month}
                 </span>
               </button>
@@ -42,7 +46,7 @@ export default function DateTimeSelector({
       </div>
 
       <div>
-        <p className="mb-3 text-xs font-medium uppercase tracking-wide text-white/40">
+        <p className="mb-3 text-xs font-medium uppercase tracking-wide text-white/55">
           Elegí un horario
         </p>
         <div className="grid grid-cols-3 gap-2 sm:grid-cols-5">
