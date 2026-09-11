@@ -32,19 +32,16 @@ export const BARBERS = [
     id: 'lucas',
     name: 'Lucas Medina',
     role: 'Especialista en fade y diseño',
-    initials: 'LM',
   },
   {
     id: 'nico',
     name: 'Nicolás Ferreyra',
     role: 'Experto en barba y afeitado clásico',
-    initials: 'NF',
   },
   {
     id: 'santi',
     name: 'Santiago Roldán',
     role: 'Cortes modernos y color',
-    initials: 'SR',
   },
 ]
 

@@ -1,3 +1,5 @@
+import { BARBER_AVATARS } from '../data/avatars'
+
 export default function BarberSelector({ barbers, selectedId, onSelect }) {
   return (
     <div className="grid gap-4 sm:grid-cols-3">
@@ -15,13 +17,18 @@ export default function BarberSelector({ barbers, selectedId, onSelect }) {
             }`}
           >
             <span
-              className={`flex h-14 w-14 items-center justify-center rounded-full text-base font-bold ${
-                isSelected
-                  ? 'bg-amber-400 text-black'
-                  : 'bg-white/10 text-white/70'
+              className={`flex h-16 w-16 items-center justify-center overflow-hidden rounded-full ring-2 transition ${
+                isSelected ? 'ring-amber-400' : 'ring-white/10'
               }`}
             >
-              {barber.initials}
+              <img
+                src={BARBER_AVATARS[barber.id]}
+                alt=""
+                aria-hidden="true"
+                width={64}
+                height={64}
+                className="h-full w-full object-cover"
+              />
             </span>
             <div>
               <p className="font-serif text-base font-semibold text-white">
