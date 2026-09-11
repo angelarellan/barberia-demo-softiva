@@ -24,6 +24,7 @@ export default function BookingFlow({ existingAppointments, onComplete }) {
   const [time, setTime] = useState(null)
   const [clientName, setClientName] = useState('')
   const [clientPhone, setClientPhone] = useState('')
+  const [attemptedSubmit, setAttemptedSubmit] = useState(false)
 
   const service = useMemo(
     () => SERVICES.find((s) => s.id === serviceId) ?? null,
@@ -51,7 +52,12 @@ export default function BookingFlow({ existingAppointments, onComplete }) {
   }[step]
 
   function handleNext() {
+    if (!canContinue) {
+      setAttemptedSubmit(true)
+      return
+    }
     if (step < 4) {
+      setAttemptedSubmit(false)
       setStep(step + 1)
     } else {
       onComplete({
@@ -69,6 +75,7 @@ export default function BookingFlow({ existingAppointments, onComplete }) {
   }
 
   function handleBack() {
+    setAttemptedSubmit(false)
     setStep((s) => Math.max(1, s - 1))
   }
 
@@ -122,6 +129,7 @@ export default function BookingFlow({ existingAppointments, onComplete }) {
                 phone={clientPhone}
                 onChangeName={setClientName}
                 onChangePhone={setClientPhone}
+                attemptedSubmit={attemptedSubmit}
               />
             )}
           </div>
@@ -139,8 +147,14 @@ export default function BookingFlow({ existingAppointments, onComplete }) {
             <button
               type="button"
               onClick={handleNext}
-              disabled={!canContinue}
-              className="flex items-center gap-1.5 rounded-full bg-amber-500 px-5 py-2.5 text-sm font-semibold text-black transition enabled:hover:bg-amber-400 disabled:cursor-not-allowed disabled:bg-white/10 disabled:text-white/30"
+              disabled={step !== 4 && !canContinue}
+              className={`flex items-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-semibold transition ${
+                canContinue
+                  ? 'bg-amber-500 text-black hover:bg-amber-400'
+                  : step === 4
+                    ? 'cursor-pointer bg-white/10 text-white/70 hover:bg-white/15'
+                    : 'cursor-not-allowed bg-white/10 text-white/30'
+              }`}
             >
               {step === 4 ? (
                 <>
