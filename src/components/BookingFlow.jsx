@@ -44,7 +44,9 @@ export default function BookingFlow({ existingAppointments, onComplete }) {
     if (!barberId) return []
     const base = BOOKED_SLOTS[barberId] ?? []
     const fromSession = existingAppointments
-      .filter((a) => a.barberId === barberId && a.date === date)
+      .filter(
+        (a) => a.barberId === barberId && a.date === date && a.status !== 'cancelled',
+      )
       .map((a) => a.time)
     return [...new Set([...base, ...fromSession])]
   }, [barberId, date, existingAppointments])

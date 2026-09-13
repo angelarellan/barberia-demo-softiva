@@ -79,9 +79,9 @@ export const TIME_SLOTS = [
 
 // Turnos ocupados de ejemplo para simular disponibilidad real
 export const BOOKED_SLOTS = {
-  lucas: ['10:00', '10:30', '16:00'],
-  nico: ['09:30', '15:00', '15:30', '18:00'],
-  santi: ['11:00', '17:00', '17:30'],
+  lucas: ['10:30', '16:00'],
+  nico: ['09:30', '15:30', '18:00'],
+  santi: ['11:00', '17:30'],
 }
 
 export const SEED_APPOINTMENTS = [

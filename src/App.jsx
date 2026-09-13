@@ -26,6 +26,7 @@ export default function App() {
         date: booking.date,
         time: booking.time,
         reminderSent: false,
+        status: 'confirmed',
       },
     ])
     setConfirmedBooking(booking)
@@ -38,6 +39,12 @@ export default function App() {
   function handleSendReminder(id) {
     setAppointments((prev) =>
       prev.map((a) => (a.id === id ? { ...a, reminderSent: true } : a)),
+    )
+  }
+
+  function handleCancelAppointment(id) {
+    setAppointments((prev) =>
+      prev.map((a) => (a.id === id ? { ...a, status: 'cancelled' } : a)),
     )
   }
 
@@ -75,6 +82,7 @@ export default function App() {
             <AdminPanel
               appointments={appointments}
               onSendReminder={handleSendReminder}
+              onCancelAppointment={handleCancelAppointment}
             />
           </Suspense>
         )}

@@ -7,6 +7,7 @@ import {
   CheckCheck,
   ChevronLeft,
   ChevronRight,
+  Ban,
 } from 'lucide-react'
 import { SERVICES, BARBERS } from '../data/mockData'
 import { formatPrice, todayISO } from '../data/utils'
@@ -18,7 +19,7 @@ function findBarber(id) {
   return BARBERS.find((b) => b.id === id)
 }
 
-export default function AdminPanel({ appointments, onSendReminder }) {
+export default function AdminPanel({ appointments, onSendReminder, onCancelAppointment }) {
   const [sendingId, setSendingId] = useState(null)
   const today = todayISO()
 
@@ -30,7 +31,12 @@ export default function AdminPanel({ appointments, onSendReminder }) {
     [appointments, today],
   )
 
-  const totalIncome = todayAppointments.reduce((sum, a) => {
+  const activeAppointments = useMemo(
+    () => todayAppointments.filter((a) => a.status !== 'cancelled'),
+    [todayAppointments],
+  )
+
+  const totalIncome = activeAppointments.reduce((sum, a) => {
     const service = findService(a.serviceId)
     return sum + (service?.price ?? 0)
   }, 0)
@@ -41,6 +47,14 @@ export default function AdminPanel({ appointments, onSendReminder }) {
       onSendReminder(id)
       setSendingId(null)
     }, 700)
+  }
+
+  function handleCancelAppointment(id, clientName) {
+    const confirmed = window.confirm(
+      `¿Confirmás cancelar el turno de ${clientName}? Se liberará el horario.`,
+    )
+    if (!confirmed) return
+    onCancelAppointment(id)
   }
 
   const scrollRef = useRef(null)
@@ -92,7 +106,7 @@ export default function AdminPanel({ appointments, onSendReminder }) {
             <span className="text-xs uppercase tracking-wide">Turnos hoy</span>
           </div>
           <p className="mt-2 text-2xl font-bold text-white">
-            {todayAppointments.length}
+            {activeAppointments.length}
           </p>
         </div>
         <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
@@ -127,7 +141,7 @@ export default function AdminPanel({ appointments, onSendReminder }) {
           ref={scrollRef}
           className="overflow-x-auto rounded-2xl border border-white/10"
         >
-          <table className="w-full min-w-[640px] border-collapse text-left text-sm">
+          <table className="w-full min-w-[760px] border-collapse text-left text-sm">
           <thead>
             <tr className="bg-white/[0.04] text-xs uppercase tracking-wide text-white/55">
               <th className="px-4 py-3 font-medium">Hora</th>
@@ -135,13 +149,14 @@ export default function AdminPanel({ appointments, onSendReminder }) {
               <th className="px-4 py-3 font-medium">Servicio</th>
               <th className="px-4 py-3 font-medium">Profesional</th>
               <th className="px-4 py-3 font-medium">Recordatorio</th>
+              <th className="px-4 py-3 font-medium">Acciones</th>
             </tr>
           </thead>
           <tbody>
             {todayAppointments.length === 0 && (
               <tr>
                 <td
-                  colSpan={5}
+                  colSpan={6}
                   className="px-4 py-8 text-center text-sm text-white/55"
                 >
                   No hay turnos agendados para hoy todavía.
@@ -152,10 +167,11 @@ export default function AdminPanel({ appointments, onSendReminder }) {
               const service = findService(appointment.serviceId)
               const barber = findBarber(appointment.barberId)
               const isSending = sendingId === appointment.id
+              const isCancelled = appointment.status === 'cancelled'
               return (
                 <tr
                   key={appointment.id}
-                  className="border-t border-white/5 text-white/70"
+                  className={`border-t border-white/5 text-white/70 ${isCancelled ? 'line-through decoration-white/30' : ''}`}
                 >
                   <td className="px-4 py-3 font-semibold text-white">
                     {appointment.time}
@@ -178,7 +194,9 @@ export default function AdminPanel({ appointments, onSendReminder }) {
                   </td>
                   <td className="px-4 py-3">{barber?.name}</td>
                   <td className="px-4 py-3">
-                    {appointment.reminderSent ? (
+                    {isCancelled ? (
+                      <span className="text-xs text-white/40">—</span>
+                    ) : appointment.reminderSent ? (
                       <span className="flex items-center gap-1.5 text-xs font-medium text-emerald-400">
                         <CheckCheck size={14} aria-hidden="true" />
                         Enviado
@@ -193,6 +211,24 @@ export default function AdminPanel({ appointments, onSendReminder }) {
                       >
                         <Send size={12} aria-hidden="true" />
                         {isSending ? 'Enviando...' : 'Simular recordatorio'}
+                      </button>
+                    )}
+                  </td>
+                  <td className="px-4 py-3">
+                    {isCancelled ? (
+                      <span className="flex items-center gap-1.5 text-xs font-medium text-red-400">
+                        <Ban size={14} aria-hidden="true" />
+                        Cancelado
+                      </span>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => handleCancelAppointment(appointment.id, appointment.clientName)}
+                        aria-label={`Cancelar turno de ${appointment.clientName}`}
+                        className="flex items-center gap-1.5 rounded-full border border-red-400/30 bg-red-400/10 px-3 py-1.5 text-xs font-medium text-red-300 transition hover:bg-red-400/20"
+                      >
+                        <Ban size={12} aria-hidden="true" />
+                        Cancelar
                       </button>
                     )}
                   </td>
