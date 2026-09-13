@@ -12,6 +12,7 @@ export default function App() {
   const [view, setView] = useState('public')
   const [appointments, setAppointments] = useState(SEED_APPOINTMENTS)
   const [confirmedBooking, setConfirmedBooking] = useState(null)
+  const [bookingResetKey, setBookingResetKey] = useState(0)
 
   function handleBookingComplete(booking) {
     setAppointments((prev) => [
@@ -45,9 +46,15 @@ export default function App() {
     setConfirmedBooking(null)
   }
 
+  function handleGoHome() {
+    setView('public')
+    setConfirmedBooking(null)
+    setBookingResetKey((k) => k + 1)
+  }
+
   return (
     <div className="flex min-h-screen flex-col bg-slate-900 text-white">
-      <NavBar view={view} onChangeView={handleChangeView} />
+      <NavBar view={view} onChangeView={handleChangeView} onGoHome={handleGoHome} />
 
       <main className="flex-1">
         {view === 'public' ? (
@@ -57,6 +64,7 @@ export default function App() {
               <SuccessScreen booking={confirmedBooking} onReset={handleReset} />
             ) : (
               <BookingFlow
+                key={bookingResetKey}
                 existingAppointments={appointments}
                 onComplete={handleBookingComplete}
               />

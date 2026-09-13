@@ -1,10 +1,14 @@
 import { Sparkles, CalendarClock, ShieldCheck } from 'lucide-react'
 
-export default function NavBar({ view, onChangeView }) {
+export default function NavBar({ view, onChangeView, onGoHome }) {
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-slate-900/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
-        <div className="flex items-center gap-2.5">
+        <button
+          type="button"
+          onClick={onGoHome}
+          className="flex items-center gap-2.5 rounded-lg text-left transition hover:opacity-80"
+        >
           <span
             aria-hidden="true"
             className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-violet-600 text-white"
@@ -19,7 +23,7 @@ export default function NavBar({ view, onChangeView }) {
               Córdoba, Argentina
             </p>
           </div>
-        </div>
+        </button>
 
         <nav
           aria-label="Navegación principal"
