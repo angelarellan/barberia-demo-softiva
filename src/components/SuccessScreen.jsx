@@ -70,7 +70,7 @@ export default function SuccessScreen({ booking, onReset }) {
               {formatDateLong(date)}
             </strong>{' '}
             a las <strong className="text-white/80">{time} hs</strong>. Te
-            enviamos este mensaje a {clientPhone}. ¡Nos vemos pronto! ✂️"
+            enviamos este mensaje a {clientPhone}. ¡Nos vemos pronto! 😊"
           </p>
         </div>
       </div>
