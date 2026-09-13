@@ -37,7 +37,7 @@ export default function Calendar({ selectedDate, onSelectDate }) {
   const todayIso = `${todayYear}-${String(todayMonth).padStart(2, '0')}-${String(todayDay).padStart(2, '0')}`
 
   return (
-    <div className="w-full max-w-sm rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+    <div className="w-full rounded-2xl border border-white/10 bg-white/[0.03] p-4 xl:max-w-xs">
       <div className="flex items-center justify-between">
         <button
           type="button"
