@@ -8,9 +8,11 @@ import {
   ChevronLeft,
   ChevronRight,
   Ban,
+  Search,
+  X,
 } from 'lucide-react'
 import { SERVICES } from '../data/mockData'
-import { formatPrice, todayISO } from '../data/utils'
+import { formatDateLong, formatPrice, todayISO } from '../data/utils'
 import ProfessionalsManager from './ProfessionalsManager'
 
 function findService(id) {
@@ -27,6 +29,8 @@ export default function AdminPanel({
   onRemoveProfessional,
 }) {
   const [sendingId, setSendingId] = useState(null)
+  const [viewDate, setViewDate] = useState(todayISO())
+  const [searchQuery, setSearchQuery] = useState('')
   const today = todayISO()
 
   function findBarber(id) {
@@ -38,11 +42,10 @@ export default function AdminPanel({
     [professionals],
   )
 
+  // Estadísticas: siempre reflejan el día de hoy, sin importar qué fecha se
+  // esté mirando en la tabla de abajo.
   const todayAppointments = useMemo(
-    () =>
-      appointments
-        .filter((a) => a.date === today)
-        .sort((a, b) => a.time.localeCompare(b.time)),
+    () => appointments.filter((a) => a.date === today),
     [appointments, today],
   )
 
@@ -55,6 +58,37 @@ export default function AdminPanel({
     const service = findService(a.serviceId)
     return sum + (service?.price ?? 0)
   }, 0)
+
+  // Tabla: turnos de la fecha elegida, filtrados por la búsqueda.
+  const viewAppointments = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase()
+    return appointments
+      .filter((a) => a.date === viewDate)
+      .filter((a) => {
+        if (!query) return true
+        const service = findService(a.serviceId)
+        const barber = professionals.find((p) => p.id === a.barberId)
+        const haystack = [a.clientName, a.clientPhone, a.time, service?.name, barber?.name]
+          .filter(Boolean)
+          .join(' ')
+          .toLowerCase()
+        return haystack.includes(query)
+      })
+      .sort((a, b) => a.time.localeCompare(b.time))
+  }, [appointments, viewDate, searchQuery, professionals])
+
+  function handleJumpToToday() {
+    setViewDate(today)
+    document
+      .getElementById('turnos-tabla')
+      ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
+  function handleJumpToProfessionals() {
+    document
+      .getElementById('profesionales')
+      ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
 
   function handleSendReminder(id) {
     setSendingId(id)
@@ -95,7 +129,7 @@ export default function AdminPanel({
       el.removeEventListener('scroll', updateScrollState)
       resizeObserver.disconnect()
     }
-  }, [todayAppointments.length])
+  }, [viewAppointments.length])
 
   function scrollByAmount(direction) {
     const el = scrollRef.current
@@ -110,12 +144,16 @@ export default function AdminPanel({
           Panel Admin
         </h1>
         <p className="mt-1 text-sm text-white/55">
-          Turnos de hoy y simulador de recordatorios por WhatsApp.
+          Buscá y gestioná los turnos, y simulá recordatorios por WhatsApp.
         </p>
       </div>
 
       <div className="mb-8 grid gap-4 sm:grid-cols-3">
-        <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+        <button
+          type="button"
+          onClick={handleJumpToToday}
+          className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-left transition hover:border-indigo-400/40 hover:bg-white/[0.06]"
+        >
           <div className="flex items-center gap-2 text-white/55">
             <CalendarDays size={15} aria-hidden="true" />
             <span className="text-xs uppercase tracking-wide">Turnos hoy</span>
@@ -123,14 +161,18 @@ export default function AdminPanel({
           <p className="mt-2 text-2xl font-bold text-white">
             {activeAppointments.length}
           </p>
-        </div>
-        <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+        </button>
+        <button
+          type="button"
+          onClick={handleJumpToProfessionals}
+          className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-left transition hover:border-indigo-400/40 hover:bg-white/[0.06]"
+        >
           <div className="flex items-center gap-2 text-white/55">
             <Users size={15} aria-hidden="true" />
             <span className="text-xs uppercase tracking-wide">Profesionales activos</span>
           </div>
           <p className="mt-2 text-2xl font-bold text-white">{activeProfessionalsCount}</p>
-        </div>
+        </button>
         <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
           <div className="flex items-center gap-2 text-white/55">
             <Wallet size={15} aria-hidden="true" />
@@ -141,6 +183,62 @@ export default function AdminPanel({
           </p>
         </div>
       </div>
+
+      <div id="turnos-tabla" className="scroll-mt-24">
+        <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-end">
+          <label className="flex flex-col gap-1.5">
+            <span className="text-xs font-medium uppercase tracking-wide text-white/55">
+              Ver turnos del
+            </span>
+            <input
+              type="date"
+              value={viewDate}
+              onChange={(event) => setViewDate(event.target.value)}
+              className="rounded-xl border border-white/10 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white [color-scheme:dark] focus:border-indigo-400/60 focus:outline-none"
+            />
+          </label>
+          <label className="flex flex-1 flex-col gap-1.5">
+            <span className="text-xs font-medium uppercase tracking-wide text-white/55">
+              Buscar
+            </span>
+            <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-3.5 py-2.5 focus-within:border-indigo-400/60">
+              <Search size={15} className="flex-shrink-0 text-white/30" aria-hidden="true" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
+                placeholder="Cliente, horario, servicio o profesional..."
+                className="w-full bg-transparent text-sm text-white placeholder:text-white/25 focus:outline-none"
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery('')}
+                  aria-label="Limpiar búsqueda"
+                  className="flex-shrink-0 text-white/40 transition hover:text-white"
+                >
+                  <X size={15} aria-hidden="true" />
+                </button>
+              )}
+            </div>
+          </label>
+          {viewDate !== today && (
+            <button
+              type="button"
+              onClick={() => setViewDate(today)}
+              className="rounded-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-sm font-medium text-white/60 transition hover:border-white/25 hover:text-white"
+            >
+              Volver a hoy
+            </button>
+          )}
+        </div>
+
+        <p className="mb-3 text-xs text-white/55">
+          Mostrando turnos del{' '}
+          <span className="font-medium text-white/60 capitalize">
+            {formatDateLong(viewDate)}
+          </span>
+        </p>
 
       <div className="flex items-center gap-1.5">
         <button
@@ -168,17 +266,19 @@ export default function AdminPanel({
             </tr>
           </thead>
           <tbody>
-            {todayAppointments.length === 0 && (
+            {viewAppointments.length === 0 && (
               <tr>
                 <td
                   colSpan={6}
                   className="px-4 py-8 text-center text-sm text-white/55"
                 >
-                  No hay turnos agendados para hoy todavía.
+                  {searchQuery
+                    ? `No se encontraron turnos para "${searchQuery}".`
+                    : 'No hay turnos agendados para esta fecha.'}
                 </td>
               </tr>
             )}
-            {todayAppointments.map((appointment) => {
+            {viewAppointments.map((appointment) => {
               const service = findService(appointment.serviceId)
               const barber = findBarber(appointment.barberId)
               const isSending = sendingId === appointment.id
@@ -263,13 +363,16 @@ export default function AdminPanel({
           <ChevronRight size={16} aria-hidden="true" />
         </button>
       </div>
+      </div>
 
-      <ProfessionalsManager
-        professionals={professionals}
-        onAdd={onAddProfessional}
-        onToggleStatus={onToggleProfessionalStatus}
-        onRemove={onRemoveProfessional}
-      />
+      <div id="profesionales" className="scroll-mt-24">
+        <ProfessionalsManager
+          professionals={professionals}
+          onAdd={onAddProfessional}
+          onToggleStatus={onToggleProfessionalStatus}
+          onRemove={onRemoveProfessional}
+        />
+      </div>
     </div>
   )
 }
