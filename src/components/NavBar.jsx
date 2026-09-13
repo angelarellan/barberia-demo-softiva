@@ -15,14 +15,9 @@ export default function NavBar({ view, onChangeView, onGoHome }) {
           >
             <Sparkles size={18} strokeWidth={2.5} />
           </span>
-          <div className="leading-tight">
-            <p className="font-serif text-base font-semibold text-white sm:text-lg">
-              Consultorio / Estudio de Estética (Demo)
-            </p>
-            <p className="text-[11px] text-white/50 sm:text-xs">
-              Córdoba, Argentina
-            </p>
-          </div>
+          <p className="font-serif text-base font-semibold text-white sm:text-lg">
+            Gestión de Turnos
+          </p>
         </button>
 
         <nav

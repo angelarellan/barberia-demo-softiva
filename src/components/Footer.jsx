@@ -13,8 +13,7 @@ export default function Footer() {
         </a>
       </p>
       <p className="mt-1 text-xs text-white/50">
-        Demo de agendamiento — Consultorio / Estudio de Estética (Demo) ©{' '}
-        {new Date().getFullYear()}
+        Demo de agendamiento — Gestión de Turnos © {new Date().getFullYear()}
       </p>
     </footer>
   )
