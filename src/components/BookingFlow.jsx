@@ -1,8 +1,7 @@
-import { useMemo, useState } from 'react'
+import { lazy, Suspense, useMemo, useState } from 'react'
 import { ChevronLeft, ChevronRight, Wallet } from 'lucide-react'
 import StepIndicator from './StepIndicator'
 import ServiceSelector from './ServiceSelector'
-import BarberSelector from './BarberSelector'
 import DateTimeSelector from './DateTimeSelector'
 import ContactForm from './ContactForm'
 import BookingSummary from './BookingSummary'
@@ -10,6 +9,8 @@ import DepositBreakdown from './DepositBreakdown'
 import PaymentModal from './PaymentModal'
 import { SERVICES, BARBERS, TIME_SLOTS, BOOKED_SLOTS } from '../data/mockData'
 import { todayISO } from '../data/utils'
+
+const BarberSelector = lazy(() => import('./BarberSelector'))
 
 const STEP_TITLES = {
   1: '¿Qué servicio querés reservar?',
@@ -117,11 +118,13 @@ export default function BookingFlow({ existingAppointments, onComplete }) {
               />
             )}
             {step === 2 && (
-              <BarberSelector
-                barbers={BARBERS}
-                selectedId={barberId}
-                onSelect={setBarberId}
-              />
+              <Suspense fallback={null}>
+                <BarberSelector
+                  barbers={BARBERS}
+                  selectedId={barberId}
+                  onSelect={setBarberId}
+                />
+              </Suspense>
             )}
             {step === 3 && (
               <DateTimeSelector
