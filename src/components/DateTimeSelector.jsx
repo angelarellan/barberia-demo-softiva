@@ -9,19 +9,19 @@ export default function DateTimeSelector({
   onSelectTime,
 }) {
   return (
-    <div className="flex flex-col gap-6">
-      <div>
+    <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
+      <div className="lg:flex-shrink-0">
         <p className="mb-3 text-xs font-medium uppercase tracking-wide text-white/55">
           Elegí una fecha
         </p>
         <Calendar selectedDate={selectedDate} onSelectDate={onSelectDate} />
       </div>
 
-      <div>
+      <div className="lg:flex-1">
         <p className="mb-3 text-xs font-medium uppercase tracking-wide text-white/55">
           Elegí un horario
         </p>
-        <div className="grid grid-cols-3 gap-2 sm:grid-cols-5">
+        <div className="grid grid-cols-3 gap-2 sm:grid-cols-5 lg:grid-cols-3">
           {timeSlots.map((slot) => {
             const isBooked = bookedSlots.includes(slot)
             const isSelected = slot === selectedTime
