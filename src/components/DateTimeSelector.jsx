@@ -10,14 +10,14 @@ export default function DateTimeSelector({
 }) {
   return (
     <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
-      <div className="lg:flex-shrink-0">
+      <div className="lg:w-full lg:max-w-sm lg:flex-shrink-0">
         <p className="mb-3 text-xs font-medium uppercase tracking-wide text-white/55">
           Elegí una fecha
         </p>
         <Calendar selectedDate={selectedDate} onSelectDate={onSelectDate} />
       </div>
 
-      <div className="lg:flex-1">
+      <div className="lg:w-full lg:max-w-sm lg:flex-shrink-0">
         <p className="mb-3 text-xs font-medium uppercase tracking-wide text-white/55">
           Elegí un horario
         </p>

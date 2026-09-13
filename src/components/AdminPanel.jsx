@@ -1,10 +1,12 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   CalendarDays,
   Users,
   Wallet,
   Send,
   CheckCheck,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react'
 import { SERVICES, BARBERS } from '../data/mockData'
 import { formatPrice, todayISO } from '../data/utils'
@@ -39,6 +41,37 @@ export default function AdminPanel({ appointments, onSendReminder }) {
       onSendReminder(id)
       setSendingId(null)
     }, 700)
+  }
+
+  const scrollRef = useRef(null)
+  const [canScrollLeft, setCanScrollLeft] = useState(false)
+  const [canScrollRight, setCanScrollRight] = useState(false)
+
+  function updateScrollState() {
+    const el = scrollRef.current
+    if (!el) return
+    setCanScrollLeft(el.scrollLeft > 4)
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 4)
+  }
+
+  useEffect(() => {
+    const el = scrollRef.current
+    if (!el) return
+    updateScrollState()
+    document.fonts?.ready?.then(updateScrollState)
+    el.addEventListener('scroll', updateScrollState)
+    const resizeObserver = new ResizeObserver(updateScrollState)
+    resizeObserver.observe(el)
+    return () => {
+      el.removeEventListener('scroll', updateScrollState)
+      resizeObserver.disconnect()
+    }
+  }, [todayAppointments.length])
+
+  function scrollByAmount(direction) {
+    const el = scrollRef.current
+    if (!el) return
+    el.scrollBy({ left: direction * el.clientWidth * 0.7, behavior: 'smooth' })
   }
 
   return (
@@ -80,8 +113,21 @@ export default function AdminPanel({ appointments, onSendReminder }) {
         </div>
       </div>
 
-      <div className="overflow-x-auto rounded-2xl border border-white/10">
-        <table className="w-full min-w-[640px] border-collapse text-left text-sm">
+      <div className="flex items-center gap-1.5">
+        <button
+          type="button"
+          onClick={() => scrollByAmount(-1)}
+          disabled={!canScrollLeft}
+          aria-label="Ver columnas anteriores"
+          className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-white/60 transition hover:border-white/25 hover:text-white disabled:pointer-events-none disabled:opacity-0"
+        >
+          <ChevronLeft size={16} aria-hidden="true" />
+        </button>
+        <div
+          ref={scrollRef}
+          className="overflow-x-auto rounded-2xl border border-white/10"
+        >
+          <table className="w-full min-w-[640px] border-collapse text-left text-sm">
           <thead>
             <tr className="bg-white/[0.04] text-xs uppercase tracking-wide text-white/55">
               <th className="px-4 py-3 font-medium">Hora</th>
@@ -155,6 +201,16 @@ export default function AdminPanel({ appointments, onSendReminder }) {
             })}
           </tbody>
         </table>
+        </div>
+        <button
+          type="button"
+          onClick={() => scrollByAmount(1)}
+          disabled={!canScrollRight}
+          aria-label="Ver columnas siguientes"
+          className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-white/60 transition hover:border-white/25 hover:text-white disabled:pointer-events-none disabled:opacity-0"
+        >
+          <ChevronRight size={16} aria-hidden="true" />
+        </button>
       </div>
     </div>
   )

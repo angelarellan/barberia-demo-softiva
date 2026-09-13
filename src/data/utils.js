@@ -24,9 +24,10 @@ function pad(n) {
 }
 
 export function getMonthLabel(year, month) {
-  return new Intl.DateTimeFormat('es-AR', { month: 'long', year: 'numeric' }).format(
+  const monthName = new Intl.DateTimeFormat('es-AR', { month: 'long' }).format(
     new Date(year, month, 1),
   )
+  return `${monthName} ${year}`
 }
 
 // Devuelve una grilla de semanas (lunes a domingo) para el mes dado, con
