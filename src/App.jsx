@@ -4,13 +4,14 @@ import Hero from './components/Hero'
 import BookingFlow from './components/BookingFlow'
 import SuccessScreen from './components/SuccessScreen'
 import Footer from './components/Footer'
-import { SEED_APPOINTMENTS } from './data/mockData'
+import { SEED_APPOINTMENTS, SEED_PROFESSIONALS } from './data/mockData'
 
 const AdminPanel = lazy(() => import('./components/AdminPanel'))
 
 export default function App() {
   const [view, setView] = useState('public')
   const [appointments, setAppointments] = useState(SEED_APPOINTMENTS)
+  const [professionals, setProfessionals] = useState(SEED_PROFESSIONALS)
   const [confirmedBooking, setConfirmedBooking] = useState(null)
   const [bookingResetKey, setBookingResetKey] = useState(0)
 
@@ -48,6 +49,24 @@ export default function App() {
     )
   }
 
+  function handleAddProfessional(professional) {
+    setProfessionals((prev) => [...prev, professional])
+  }
+
+  function handleToggleProfessionalStatus(id) {
+    setProfessionals((prev) =>
+      prev.map((p) =>
+        p.id === id
+          ? { ...p, status: p.status === 'active' ? 'vacation' : 'active' }
+          : p,
+      ),
+    )
+  }
+
+  function handleRemoveProfessional(id) {
+    setProfessionals((prev) => prev.filter((p) => p.id !== id))
+  }
+
   function handleChangeView(nextView) {
     setView(nextView)
     setConfirmedBooking(null)
@@ -73,6 +92,7 @@ export default function App() {
               <BookingFlow
                 key={bookingResetKey}
                 existingAppointments={appointments}
+                professionals={professionals}
                 onComplete={handleBookingComplete}
               />
             )}
@@ -83,6 +103,10 @@ export default function App() {
               appointments={appointments}
               onSendReminder={handleSendReminder}
               onCancelAppointment={handleCancelAppointment}
+              professionals={professionals}
+              onAddProfessional={handleAddProfessional}
+              onToggleProfessionalStatus={handleToggleProfessionalStatus}
+              onRemoveProfessional={handleRemoveProfessional}
             />
           </Suspense>
         )}

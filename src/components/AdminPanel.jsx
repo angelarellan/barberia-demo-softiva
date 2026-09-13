@@ -9,19 +9,34 @@ import {
   ChevronRight,
   Ban,
 } from 'lucide-react'
-import { SERVICES, BARBERS } from '../data/mockData'
+import { SERVICES } from '../data/mockData'
 import { formatPrice, todayISO } from '../data/utils'
+import ProfessionalsManager from './ProfessionalsManager'
 
 function findService(id) {
   return SERVICES.find((s) => s.id === id)
 }
-function findBarber(id) {
-  return BARBERS.find((b) => b.id === id)
-}
 
-export default function AdminPanel({ appointments, onSendReminder, onCancelAppointment }) {
+export default function AdminPanel({
+  appointments,
+  onSendReminder,
+  onCancelAppointment,
+  professionals,
+  onAddProfessional,
+  onToggleProfessionalStatus,
+  onRemoveProfessional,
+}) {
   const [sendingId, setSendingId] = useState(null)
   const today = todayISO()
+
+  function findBarber(id) {
+    return professionals.find((b) => b.id === id)
+  }
+
+  const activeProfessionalsCount = useMemo(
+    () => professionals.filter((p) => p.status === 'active').length,
+    [professionals],
+  )
 
   const todayAppointments = useMemo(
     () =>
@@ -114,7 +129,7 @@ export default function AdminPanel({ appointments, onSendReminder, onCancelAppoi
             <Users size={15} aria-hidden="true" />
             <span className="text-xs uppercase tracking-wide">Profesionales activos</span>
           </div>
-          <p className="mt-2 text-2xl font-bold text-white">{BARBERS.length}</p>
+          <p className="mt-2 text-2xl font-bold text-white">{activeProfessionalsCount}</p>
         </div>
         <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
           <div className="flex items-center gap-2 text-white/55">
@@ -248,6 +263,13 @@ export default function AdminPanel({ appointments, onSendReminder, onCancelAppoi
           <ChevronRight size={16} aria-hidden="true" />
         </button>
       </div>
+
+      <ProfessionalsManager
+        professionals={professionals}
+        onAdd={onAddProfessional}
+        onToggleStatus={onToggleProfessionalStatus}
+        onRemove={onRemoveProfessional}
+      />
     </div>
   )
 }

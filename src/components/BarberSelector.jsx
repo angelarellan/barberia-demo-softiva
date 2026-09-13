@@ -1,6 +1,14 @@
-import { BARBER_AVATARS } from '../data/avatars'
+import { getBarberAvatar } from '../data/avatars'
 
 export default function BarberSelector({ barbers, selectedId, onSelect }) {
+  if (barbers.length === 0) {
+    return (
+      <p className="text-sm text-white/55">
+        No hay profesionales disponibles en este momento.
+      </p>
+    )
+  }
+
   return (
     <div className="grid gap-4 sm:grid-cols-3">
       {barbers.map((barber) => {
@@ -22,7 +30,7 @@ export default function BarberSelector({ barbers, selectedId, onSelect }) {
               }`}
             >
               <img
-                src={BARBER_AVATARS[barber.id]}
+                src={getBarberAvatar(barber.id)}
                 alt=""
                 aria-hidden="true"
                 width={64}

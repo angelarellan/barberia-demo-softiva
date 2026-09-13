@@ -7,7 +7,7 @@ import ContactForm from './ContactForm'
 import BookingSummary from './BookingSummary'
 import DepositBreakdown from './DepositBreakdown'
 import PaymentModal from './PaymentModal'
-import { SERVICES, BARBERS, TIME_SLOTS, BOOKED_SLOTS } from '../data/mockData'
+import { SERVICES, TIME_SLOTS, BOOKED_SLOTS } from '../data/mockData'
 import { todayISO } from '../data/utils'
 
 const BarberSelector = lazy(() => import('./BarberSelector'))
@@ -19,7 +19,7 @@ const STEP_TITLES = {
   4: 'Casi listo, dejanos tus datos',
 }
 
-export default function BookingFlow({ existingAppointments, onComplete }) {
+export default function BookingFlow({ existingAppointments, professionals, onComplete }) {
   const [step, setStep] = useState(1)
   const [serviceId, setServiceId] = useState(null)
   const [barberId, setBarberId] = useState(null)
@@ -36,8 +36,13 @@ export default function BookingFlow({ existingAppointments, onComplete }) {
     [serviceId],
   )
   const barber = useMemo(
-    () => BARBERS.find((b) => b.id === barberId) ?? null,
-    [barberId],
+    () => professionals.find((b) => b.id === barberId) ?? null,
+    [barberId, professionals],
+  )
+
+  const activeProfessionals = useMemo(
+    () => professionals.filter((p) => p.status === 'active'),
+    [professionals],
   )
 
   const bookedSlots = useMemo(() => {
@@ -122,7 +127,7 @@ export default function BookingFlow({ existingAppointments, onComplete }) {
             {step === 2 && (
               <Suspense fallback={null}>
                 <BarberSelector
-                  barbers={BARBERS}
+                  barbers={activeProfessionals}
                   selectedId={barberId}
                   onSelect={setBarberId}
                 />

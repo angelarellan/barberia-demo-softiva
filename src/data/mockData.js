@@ -39,21 +39,24 @@ export const SERVICES = [
   },
 ]
 
-export const BARBERS = [
+export const SEED_PROFESSIONALS = [
   {
     id: 'lucas',
     name: 'Dr. Lucas Medina',
     role: 'Kinesiólogo / Fisioterapeuta',
+    status: 'active',
   },
   {
     id: 'nico',
     name: 'Lic. Nicolás Ferreyra',
     role: 'Especialista en Estética Facial',
+    status: 'active',
   },
   {
     id: 'santi',
     name: 'Dr. Santiago Roldán',
     role: 'Médico Clínico General',
+    status: 'active',
   },
 ]
 
