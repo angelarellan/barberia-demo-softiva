@@ -1,4 +1,4 @@
-import { Sparkles, CalendarClock, ShieldCheck } from 'lucide-react'
+import { Hourglass, CalendarClock, ShieldCheck } from 'lucide-react'
 
 export default function NavBar({ view, onChangeView, onGoHome }) {
   return (
@@ -13,7 +13,7 @@ export default function NavBar({ view, onChangeView, onGoHome }) {
             aria-hidden="true"
             className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-violet-600 text-white"
           >
-            <Sparkles size={18} strokeWidth={2.5} />
+            <Hourglass size={18} strokeWidth={2.5} />
           </span>
           <p className="font-serif text-base font-semibold text-white sm:text-lg">
             Gestión de Turnos
