@@ -12,7 +12,7 @@ import {
   X,
 } from 'lucide-react'
 import { SERVICES } from '../data/mockData'
-import { formatDateLong, formatPrice, todayISO } from '../data/utils'
+import { formatDateLong, formatPrice, normalizeText, todayISO } from '../data/utils'
 import ProfessionalsManager from './ProfessionalsManager'
 
 function findService(id) {
@@ -61,17 +61,18 @@ export default function AdminPanel({
 
   // Tabla: turnos de la fecha elegida, filtrados por la búsqueda.
   const viewAppointments = useMemo(() => {
-    const query = searchQuery.trim().toLowerCase()
+    const query = normalizeText(searchQuery.trim())
     return appointments
       .filter((a) => a.date === viewDate)
       .filter((a) => {
         if (!query) return true
         const service = findService(a.serviceId)
         const barber = professionals.find((p) => p.id === a.barberId)
-        const haystack = [a.clientName, a.clientPhone, a.time, service?.name, barber?.name]
-          .filter(Boolean)
-          .join(' ')
-          .toLowerCase()
+        const haystack = normalizeText(
+          [a.clientName, a.clientPhone, a.time, service?.name, barber?.name]
+            .filter(Boolean)
+            .join(' '),
+        )
         return haystack.includes(query)
       })
       .sort((a, b) => a.time.localeCompare(b.time))

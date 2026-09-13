@@ -19,6 +19,15 @@ export function todayISO() {
   return new Date().toISOString().slice(0, 10)
 }
 
+// Pasa a minúsculas y saca tildes/diacríticos, para comparar texto ingresado
+// por el usuario ("gomez") contra datos acentuados ("Gómez") sin distinción.
+export function normalizeText(value) {
+  return value
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+}
+
 function pad(n) {
   return String(n).padStart(2, '0')
 }
