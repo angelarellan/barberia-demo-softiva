@@ -8,7 +8,7 @@ export default function Hero() {
           <Star size={12} fill="currentColor" aria-hidden="true" />
           4.9 · +500 turnos agendados
         </span>
-        <h1 className="font-serif text-3xl font-bold tracking-tight text-white sm:text-4xl">
+        <h1 className="font-serif text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
           Consultorio / Estudio de Estética (Demo)
         </h1>
         <p className="flex items-center gap-1.5 text-sm text-white/50">
