@@ -20,13 +20,13 @@ export default function ContactForm({
     <div className="flex flex-col gap-4">
       <label className="flex flex-col gap-1.5">
         <span className="text-xs font-medium uppercase tracking-wide text-white/55">
-          Nombre y apellido <span className="text-amber-400">*</span>
+          Nombre y apellido <span className="text-indigo-400">*</span>
         </span>
         <div
           className={`flex items-center gap-2 rounded-xl border px-3.5 py-2.5 transition ${
             showNameError
               ? 'border-red-500 bg-red-500/5'
-              : 'border-white/10 bg-white/[0.03] focus-within:border-amber-400/60'
+              : 'border-white/10 bg-white/[0.03] focus-within:border-indigo-400/60'
           }`}
         >
           <User
@@ -58,13 +58,13 @@ export default function ContactForm({
 
       <label className="flex flex-col gap-1.5">
         <span className="text-xs font-medium uppercase tracking-wide text-white/55">
-          WhatsApp <span className="text-amber-400">*</span>
+          WhatsApp <span className="text-indigo-400">*</span>
         </span>
         <div
           className={`flex items-center gap-2 rounded-xl border px-3.5 py-2.5 transition ${
             showPhoneError
               ? 'border-red-500 bg-red-500/5'
-              : 'border-white/10 bg-white/[0.03] focus-within:border-amber-400/60'
+              : 'border-white/10 bg-white/[0.03] focus-within:border-indigo-400/60'
           }`}
         >
           <Phone
@@ -96,7 +96,7 @@ export default function ContactForm({
       </label>
 
       <p className="text-xs text-white/50">
-        <span className="text-amber-400">*</span> Campos obligatorios. Te
+        <span className="text-indigo-400">*</span> Campos obligatorios. Te
         enviaremos la confirmación de tu turno por WhatsApp a este número.
       </p>
 

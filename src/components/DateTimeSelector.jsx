@@ -26,7 +26,7 @@ export default function DateTimeSelector({
                 onClick={() => onSelectDate(day.iso)}
                 className={`flex min-w-[64px] flex-col items-center gap-0.5 rounded-xl border px-3 py-2.5 transition ${
                   isSelected
-                    ? 'border-amber-400 bg-amber-400/10 text-white'
+                    ? 'border-indigo-400 bg-gradient-to-br from-indigo-500/15 to-violet-500/10 text-white'
                     : 'border-white/10 bg-white/[0.03] text-white/50 hover:border-white/25'
                 }`}
               >
@@ -63,7 +63,7 @@ export default function DateTimeSelector({
                   isBooked
                     ? 'cursor-not-allowed border-white/5 bg-white/[0.02] text-white/20 line-through'
                     : isSelected
-                      ? 'border-amber-400 bg-amber-400 text-black'
+                      ? 'border-transparent bg-gradient-to-br from-indigo-500 to-violet-600 text-white'
                       : 'border-white/10 bg-white/[0.03] text-white/70 hover:border-white/25'
                 }`}
               >

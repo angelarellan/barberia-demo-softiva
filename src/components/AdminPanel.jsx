@@ -5,7 +5,6 @@ import {
   Wallet,
   Send,
   CheckCheck,
-  Scissors,
 } from 'lucide-react'
 import { SERVICES, BARBERS } from '../data/mockData'
 import { formatPrice, todayISO } from '../data/utils'
@@ -66,7 +65,7 @@ export default function AdminPanel({ appointments, onSendReminder }) {
         <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
           <div className="flex items-center gap-2 text-white/55">
             <Users size={15} aria-hidden="true" />
-            <span className="text-xs uppercase tracking-wide">Barberos activos</span>
+            <span className="text-xs uppercase tracking-wide">Profesionales activos</span>
           </div>
           <p className="mt-2 text-2xl font-bold text-white">{BARBERS.length}</p>
         </div>
@@ -75,7 +74,7 @@ export default function AdminPanel({ appointments, onSendReminder }) {
             <Wallet size={15} aria-hidden="true" />
             <span className="text-xs uppercase tracking-wide">Ingresos estimados</span>
           </div>
-          <p className="mt-2 text-2xl font-bold text-amber-400">
+          <p className="mt-2 text-2xl font-bold text-indigo-300">
             {formatPrice(totalIncome)}
           </p>
         </div>
@@ -88,7 +87,7 @@ export default function AdminPanel({ appointments, onSendReminder }) {
               <th className="px-4 py-3 font-medium">Hora</th>
               <th className="px-4 py-3 font-medium">Cliente</th>
               <th className="px-4 py-3 font-medium">Servicio</th>
-              <th className="px-4 py-3 font-medium">Barbero</th>
+              <th className="px-4 py-3 font-medium">Profesional</th>
               <th className="px-4 py-3 font-medium">Recordatorio</th>
             </tr>
           </thead>
@@ -125,7 +124,9 @@ export default function AdminPanel({ appointments, onSendReminder }) {
                   </td>
                   <td className="px-4 py-3">
                     <span className="flex items-center gap-1.5">
-                      <Scissors size={12} className="text-amber-400" aria-hidden="true" />
+                      {service?.icon && (
+                        <service.icon size={12} className="text-indigo-400" aria-hidden="true" />
+                      )}
                       {service?.name}
                     </span>
                   </td>
@@ -142,7 +143,7 @@ export default function AdminPanel({ appointments, onSendReminder }) {
                         onClick={() => handleSendReminder(appointment.id)}
                         disabled={isSending}
                         aria-label={`Simular recordatorio de WhatsApp para ${appointment.clientName}`}
-                        className="flex items-center gap-1.5 rounded-full border border-amber-400/30 bg-amber-400/10 px-3 py-1.5 text-xs font-medium text-amber-300 transition hover:bg-amber-400/20 disabled:opacity-50"
+                        className="flex items-center gap-1.5 rounded-full border border-indigo-400/30 bg-indigo-400/10 px-3 py-1.5 text-xs font-medium text-indigo-300 transition hover:bg-indigo-400/20 disabled:opacity-50"
                       >
                         <Send size={12} aria-hidden="true" />
                         {isSending ? 'Enviando...' : 'Simular recordatorio'}

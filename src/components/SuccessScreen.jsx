@@ -14,15 +14,15 @@ export default function SuccessScreen({ booking, onReset }) {
       </span>
       <div>
         <h2 className="font-serif text-2xl font-bold text-white">
-          ¡Turno confirmado, {clientName.split(' ')[0]}!
+          ¡Reserva confirmada, {clientName.split(' ')[0]}!
         </h2>
         <p className="mt-2 text-sm text-white/50">
-          Te esperamos en Barbería Demo. Guardá los detalles de tu
-          reserva.
+          Tu seña fue acreditada con Mercado Pago. Te enviamos los datos por
+          WhatsApp/Mail.
         </p>
       </div>
 
-      <div className="w-full rounded-2xl border border-white/10 bg-white/[0.03] p-5 text-left text-sm text-white/70">
+      <div className="w-full rounded-2xl border border-white/10 bg-white/[0.03] p-5 text-left text-sm text-white/70 shadow-lg shadow-black/20 backdrop-blur">
         <div className="flex justify-between border-b border-white/10 pb-2.5">
           <span className="text-white/55">Servicio</span>
           <span className="font-medium text-white">
@@ -30,7 +30,7 @@ export default function SuccessScreen({ booking, onReset }) {
           </span>
         </div>
         <div className="flex justify-between border-b border-white/10 py-2.5">
-          <span className="text-white/55">Barbero</span>
+          <span className="text-white/55">Profesional</span>
           <span className="font-medium text-white">{barber.name}</span>
         </div>
         <div className="flex justify-between border-b border-white/10 py-2.5">
@@ -39,9 +39,15 @@ export default function SuccessScreen({ booking, onReset }) {
             {formatDateLong(date)}
           </span>
         </div>
-        <div className="flex justify-between pt-2.5">
+        <div className="flex justify-between border-b border-white/10 py-2.5">
           <span className="text-white/55">Horario</span>
           <span className="font-medium text-white">{time} hs</span>
+        </div>
+        <div className="flex justify-between pt-2.5">
+          <span className="text-white/55">Seña abonada (Mercado Pago)</span>
+          <span className="font-medium text-indigo-300">
+            {formatPrice(service.deposit)}
+          </span>
         </div>
       </div>
 

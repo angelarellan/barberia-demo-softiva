@@ -1,17 +1,19 @@
 import { useMemo, useState } from 'react'
-import { ChevronLeft, ChevronRight, CalendarCheck } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Wallet } from 'lucide-react'
 import StepIndicator from './StepIndicator'
 import ServiceSelector from './ServiceSelector'
 import BarberSelector from './BarberSelector'
 import DateTimeSelector from './DateTimeSelector'
 import ContactForm from './ContactForm'
 import BookingSummary from './BookingSummary'
+import DepositBreakdown from './DepositBreakdown'
+import PaymentModal from './PaymentModal'
 import { SERVICES, BARBERS, TIME_SLOTS, BOOKED_SLOTS } from '../data/mockData'
 import { todayISO } from '../data/utils'
 
 const STEP_TITLES = {
   1: '¿Qué servicio querés reservar?',
-  2: '¿Con qué barbero preferís atenderte?',
+  2: '¿Con qué profesional preferís atenderte?',
   3: 'Elegí el día y horario',
   4: 'Casi listo, dejanos tus datos',
 }
@@ -25,6 +27,8 @@ export default function BookingFlow({ existingAppointments, onComplete }) {
   const [clientName, setClientName] = useState('')
   const [clientPhone, setClientPhone] = useState('')
   const [attemptedSubmit, setAttemptedSubmit] = useState(false)
+  const [showPayment, setShowPayment] = useState(false)
+  const [paymentKey, setPaymentKey] = useState(0)
 
   const service = useMemo(
     () => SERVICES.find((s) => s.id === serviceId) ?? null,
@@ -60,18 +64,24 @@ export default function BookingFlow({ existingAppointments, onComplete }) {
       setAttemptedSubmit(false)
       setStep(step + 1)
     } else {
-      onComplete({
-        id: `booking-${Date.now()}`,
-        service,
-        barber,
-        serviceId,
-        barberId,
-        date,
-        time,
-        clientName: clientName.trim(),
-        clientPhone: clientPhone.trim(),
-      })
+      setPaymentKey((k) => k + 1)
+      setShowPayment(true)
     }
+  }
+
+  function handlePaymentConfirmed() {
+    setShowPayment(false)
+    onComplete({
+      id: `booking-${Date.now()}`,
+      service,
+      barber,
+      serviceId,
+      barberId,
+      date,
+      time,
+      clientName: clientName.trim(),
+      clientPhone: clientPhone.trim(),
+    })
   }
 
   function handleBack() {
@@ -124,13 +134,16 @@ export default function BookingFlow({ existingAppointments, onComplete }) {
               />
             )}
             {step === 4 && (
-              <ContactForm
-                name={clientName}
-                phone={clientPhone}
-                onChangeName={setClientName}
-                onChangePhone={setClientPhone}
-                attemptedSubmit={attemptedSubmit}
-              />
+              <>
+                <DepositBreakdown service={service} />
+                <ContactForm
+                  name={clientName}
+                  phone={clientPhone}
+                  onChangeName={setClientName}
+                  onChangePhone={setClientPhone}
+                  attemptedSubmit={attemptedSubmit}
+                />
+              </>
             )}
           </div>
 
@@ -148,9 +161,12 @@ export default function BookingFlow({ existingAppointments, onComplete }) {
               type="button"
               onClick={handleNext}
               disabled={step !== 4 && !canContinue}
+              aria-disabled={!canContinue}
               className={`flex items-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-semibold transition ${
                 canContinue
-                  ? 'bg-amber-500 text-black hover:bg-amber-400'
+                  ? step === 4
+                    ? 'bg-[#00aaef] text-white hover:bg-[#0090c8]'
+                    : 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white hover:from-indigo-500 hover:to-violet-500'
                   : step === 4
                     ? 'cursor-pointer bg-white/10 text-white/70 hover:bg-white/15'
                     : 'cursor-not-allowed bg-white/10 text-white/30'
@@ -158,8 +174,8 @@ export default function BookingFlow({ existingAppointments, onComplete }) {
             >
               {step === 4 ? (
                 <>
-                  <CalendarCheck size={16} aria-hidden="true" />
-                  Confirmar turno
+                  <Wallet size={16} aria-hidden="true" />
+                  Pagar seña de reserva con Mercado Pago
                 </>
               ) : (
                 <>
@@ -175,6 +191,14 @@ export default function BookingFlow({ existingAppointments, onComplete }) {
           <BookingSummary service={service} barber={barber} date={date} time={time} />
         </div>
       </div>
+
+      <PaymentModal
+        key={paymentKey}
+        open={showPayment}
+        amount={service?.deposit}
+        onClose={() => setShowPayment(false)}
+        onConfirm={handlePaymentConfirmed}
+      />
 
       <div className="mt-6 lg:hidden">
         <BookingSummary service={service} barber={barber} date={date} time={time} />

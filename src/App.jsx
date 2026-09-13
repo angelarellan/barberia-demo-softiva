@@ -46,7 +46,7 @@ export default function App() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#0b0b0f] text-white">
+    <div className="flex min-h-screen flex-col bg-slate-900 text-white">
       <NavBar view={view} onChangeView={handleChangeView} />
 
       <main className="flex-1">

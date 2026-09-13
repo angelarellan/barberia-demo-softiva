@@ -7,7 +7,7 @@ export const BARBER_AVATARS = Object.fromEntries(
     barber.id,
     createAvatar(personas, {
       seed: barber.id,
-      backgroundColor: ['f59e0b', 'd97706', 'fbbf24'],
+      backgroundColor: ['4f46e5', '7c3aed', '6366f1'],
     }).toDataUri(),
   ]),
 )
