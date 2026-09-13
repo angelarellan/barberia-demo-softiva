@@ -162,7 +162,7 @@ export default function BookingFlow({ existingAppointments, onComplete }) {
               onClick={handleNext}
               disabled={step !== 4 && !canContinue}
               aria-disabled={!canContinue}
-              className={`flex items-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-semibold transition ${
+              className={`flex items-center gap-1.5 whitespace-nowrap rounded-full px-5 py-2.5 text-sm font-semibold transition ${
                 canContinue
                   ? step === 4
                     ? 'bg-[#00aaef] text-white hover:bg-[#0090c8]'
@@ -175,7 +175,7 @@ export default function BookingFlow({ existingAppointments, onComplete }) {
               {step === 4 ? (
                 <>
                   <Wallet size={16} aria-hidden="true" />
-                  Pagar seña de reserva con Mercado Pago
+                  Pagar con Mercado Pago
                 </>
               ) : (
                 <>
